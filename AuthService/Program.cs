@@ -17,9 +17,9 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title = "Delivery Service API",
+        Title = "Auth Service API",
         Version = "v1",
-        Description = "A simple example of a microserices Delivery Service API",
+        Description = "A simple example of a microserices Auth Service API",
     });
 });
 
@@ -31,7 +31,6 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
 });
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
