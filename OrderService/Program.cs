@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using OrderService.Context;
+using OrderService.Service;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,13 @@ Log.Logger = new LoggerConfiguration()
                 .CreateLogger();
 
 builder.Host.UseSerilog();
+
+builder.Services.AddScoped<IOrderService, OrderService.Service.OrderService>();
+
+builder.Services.AddDbContext<OrderDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("OrderServiceConnection"));
+});
 
 builder.Services.AddControllers();
 

@@ -1,3 +1,6 @@
+using DeliveryService.Context;
+using DeliveryService.Service;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,13 @@ Log.Logger = new LoggerConfiguration()
                 .CreateLogger();
 
 builder.Host.UseSerilog();
+
+builder.Services.AddScoped<IDeliveryService, DeliveryService.Service.DeliveryService>();
+
+builder.Services.AddDbContext<DeliveryDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DeliveryDbConnection"));
+});
 
 builder.Services.AddControllers();
 

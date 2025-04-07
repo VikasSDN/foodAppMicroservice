@@ -1,3 +1,9 @@
+using System.Text;
+using AuthService.Context;
+using AuthService.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +15,33 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+builder.Services.AddScoped<IAuthService, AuthService.Service.AuthService>();
+
+builder.Services.AddDbContext<AuthDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("AuthServiceConnection"));
+});
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
+
+// Configure JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = "authService",
+            ValidAudience = "foodDeliveryApp",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super_secret_key"))
+        };
+    });
 
 builder.Services.AddSwaggerGen(options =>
 {
