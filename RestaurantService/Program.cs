@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RestaurantService.Context;
+using RestaurantService.Services.IServices;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +12,11 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+builder.Services.AddScoped<IRestaurantservice, RestaurantService.Services.RestaurantService>();
 
 builder.Services.AddDbContext<RestaurantDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("RestaurantServiceConnection"));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("RestaurantDbConnection"));
 });
 
 builder.Services.AddControllers();

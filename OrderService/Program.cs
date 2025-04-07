@@ -16,7 +16,7 @@ builder.Services.AddScoped<IOrderService, OrderService.Service.OrderService>();
 
 builder.Services.AddDbContext<OrderDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("OrderServiceConnection"));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("OrderDbConnection"));
 });
 
 builder.Services.AddControllers();

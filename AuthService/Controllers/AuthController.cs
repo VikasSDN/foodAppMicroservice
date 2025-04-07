@@ -19,18 +19,13 @@ public class AuthController(ILogger<AuthController> logger, IAuthService authSer
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] User loginUser)
+    public async Task<IActionResult> Login([FromBody] RequestDto loginUser)
     {
-        var user = AuthenticateUser(loginUser);
+        var user = await _authService.AuthenticateUser(loginUser);
         if (user == null)
             return Unauthorized();
 
         var token = _authService.GenerateJwtToken(user);
         return Ok(new { token });
-    }
-
-    private User AuthenticateUser(User loginUser)
-    {
-        return new User { Username = loginUser.Username, Role = "User" };
     }
 }

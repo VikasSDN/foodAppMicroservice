@@ -22,7 +22,6 @@ builder.Services.AddDbContext<AuthDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("AuthServiceConnection"));
 });
 
-
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
