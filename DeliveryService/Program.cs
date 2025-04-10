@@ -29,7 +29,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Delivery Service API",
         Version = "v1",
-        Description = "A simple example of a microserices Delivery Service API",
+        Description = "A simple example of a microservices Delivery Service API",
     });
 });
 

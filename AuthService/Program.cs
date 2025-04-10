@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Auth Service API",
         Version = "v1",
-        Description = "A simple example of a microserices Auth Service API",
+        Description = "A simple example of a microservices Auth Service API",
     });
 });
 
